@@ -8,7 +8,7 @@ If choice is not valid:
 Displays to user that choice was not valid.
 Prompt if user wants to return to menu or exit.
 If choice is valid:
-Prompt user to imput arguments to perform operations.
+Prompt user to input arguments to perform operations.
 Display results of operation to user.
 Prompt if user wants to return to menu for new operation or exit.
 If user requests new operation, return him back to menu.
@@ -32,7 +32,7 @@ int main()
 	// C-string arrays for user input
 	const int LENGTH = 21;
 	char str1[55] = "";         //double length, so str1 can hold str1 + str2
-	char str2[LENGTH] = "";  //  intialized both arrays filled with \0
+	char str2[LENGTH] = "";  //  initialized  both arrays filled with \0
 
 	char choice = '0';     //to hold the menu choice from 1-4
 						   //Fabiane: by changing the choice variable to char (instead of int), some things didn't work that well when I tested it
@@ -44,7 +44,7 @@ int main()
 
 					// To display the menu and get a choice from user
 	cout << "Enter the number that corresponds to the string manipulation to be performed:\n\n"
-		<< "    1. String lenght.\n"
+		<< "    1. String length.\n"
 		<< "    2. String copy\n"
 		<< "    3. String concatenation\n"
 		<< "    4. String comparison.\n\n";
@@ -63,7 +63,7 @@ int main()
 		case '1':  //  stringLength function
 		{
 			inputSingleString(str1, LENGTH);                    // single word input
-			int len = stringLength(str1);                       // return word lenght to len variable
+			int len = stringLength(str1);                       // return word length to len variable
 			cout << "Word has " << len << " characters \n";
 			break;
 		}
@@ -111,7 +111,7 @@ int main()
 			int comp = stringCompare(str1, str2);  // returns value of compared words
 
 			if (comp == 0)
-				cout << "You inputed identical words.";
+				cout << "You inputted identical words.";
 
 			else if (comp > 0)
 				cout << "The words are different: '" << str2 << "' comes before '" << str1 << "' alphabetically\n";
@@ -125,7 +125,7 @@ int main()
 		{
 			cout << choice << " is not a choice in this menu.\n" << "You must enter 1, 2, 3 or 4! \n";
 			cin.clear();
-			cin.ignore(10000, '\n');  //Fabiane: had to remove this line completeley for keyboard input to work correctly
+			cin.ignore(10000, '\n');  //Fabiane: had to remove this line completely for keyboard input to work correctly
 		}
 
 
@@ -167,7 +167,7 @@ void inputDoubleString(char *string1, char *string2, const int size)
 
 int stringLength(char *charArrayFromMain)
 {
-	// get an array adress pointer, then use a loop to count the characters in the array until a null terminator is found
+	// get an array address pointer, then use a loop to count the characters in the array until a null terminator is found
 	// return the length of the array not counting the \0
 
 	int count = 0;
@@ -180,7 +180,7 @@ int stringLength(char *charArrayFromMain)
 
 char *stringNCopy(char *destinationCharArray, char *sourceCharArray, int stringNCopyNumber)
 {
-	//  get the adress for the source char array, the destination array, and a number sent from main
+	//  get the address  for the source char array, the destination array, and a number sent from main
 	//  run the loop based on the number that was sent from main, or until a \0 is found
 	//  each time the loop runs, copy the character from the source array and put it in the destination array
 	//  add a \0 at the end of the destination array
@@ -212,7 +212,7 @@ char* stringAdd(char *firstWord, const char *secondWord)
 	count++;
 	while (*secondWord != '\0')
 	{
-		*firstWord++ = *secondWord++;	// appends the source characters to location pointed in destination word, untill
+		*firstWord++ = *secondWord++;	// appends the source characters to location pointed in destination word, until
 										// a null terminator is found in the source word.
 		count++;
 	}
@@ -223,7 +223,7 @@ char* stringAdd(char *firstWord, const char *secondWord)
 
 
 /* stringCompare String Comparison Function:
-Mimics C-string camparison strcmp function.
+Mimics C-string comparison  strcmp function.
 Accepts two pointers to C-strings as arguments and returns an
 int value that shows how the strings compare to each other. */
 int stringCompare(const char *firstWord, const char *secondWord)
