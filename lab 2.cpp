@@ -24,20 +24,21 @@ using namespace std;
 void inputSingleString(char *string1, const int size);
 void inputDoubleString(char *string1, char *string2, const int size);
 int stringLength(char *charArrayFromMain);
-char *stringNCopy(char *charArrayFromMain);
+char *stringNCopy(char *charArrayFromMain, char*, int);
 char* stringAdd(char *dest, const char *src);
 int stringCompare(const char *firstWord, const char *secondWord);
 
 int main()
 {
 	// C-string arrays for user input
-	const int LENGTH = 25;
+	const int LENGTH = 21;
 	char str1[55] = {};         //double length, so str1 can hold str1 + str2
 	char str2[LENGTH] = {};  //  clifford - I was having errors here with the output, so I intialized both arrays filled with \0
-				 //  also added a few extra to the array sizes to pad for some unforseen problems. 
+							 //  also added a few extra to the array sizes to pad for some unforseen problems. 
 
-	int choice = 0;     //to hold the menu choice from 1-4
-	int count = 0;  // clifford - loop counter
+	char choice = '0';     //to hold the menu choice from 1-4
+	int stringNCopyNumber = 0;
+	int count = 0;  //  loop counter
 
 						// To display the menu and get a choice from user
 	cout << "Enter the number that corresponds to the string manipulation to be performed:\n\n"
@@ -57,7 +58,7 @@ int main()
 		switch (choice)
 
 		{
-		case 1:  //  stringLength function
+		case '1':  //  stringLength function
 		{
 			inputSingleString(str1, LENGTH);                    // single word input
 			int len = stringLength(str1);                       // return word lenght to len variable
@@ -65,16 +66,19 @@ int main()
 			break;
 		}
 
-		case 2:  //  stringNCopy function
+		case '2':  //  stringNCopy function
 		{
 			/*FF: This function takes 3 parameters (2 string pointers + 1 int) for the amount of
 			characters to be copied from source to destination. I used single input string
 			because your function only took a single input and I wanted to test the menu. */
 			char *stringNCopyPointer = nullptr;
 			count = 0;
-			inputSingleString(str1, LENGTH);
+			stringNCopyNumber = 0;
+			inputSingleString(str2, LENGTH);
+			cout << "enter the number of characters to copy: ";
+			cin >> stringNCopyNumber;
 			//stringNCopy(str1);
-			stringNCopyPointer = stringNCopy(str1);
+			stringNCopyPointer = stringNCopy(str1, str2, stringNCopyNumber);
 			cout << "stringNCopy returns: ";  // clifford - added this is in
 			while (*(stringNCopyPointer + count) != 0)
 			{
@@ -85,7 +89,7 @@ int main()
 			break;
 		}
 
-		case 3:  //  stringAdd function
+		case '3':  //  stringAdd function
 		{
 			inputDoubleString(str1, str2, LENGTH);   // double word input
 			stringAdd(str1, str2);                   // returns concatenated words
@@ -100,7 +104,7 @@ int main()
 			break;
 		}
 
-		case 4:  //  stringCompare function
+		case '4':  //  stringCompare function
 		{
 			inputDoubleString(str1, str2, LENGTH);  // double word input
 			int comp = stringCompare(str1, str2);  // returns value of compared words
@@ -119,27 +123,21 @@ int main()
 		default: 
 		{
 			cout << choice << " is not a choice in this menu.\n" << "You must enter 1, 2, 3 or 4! \n";
+			cin.clear();
+			cin.ignore(10000, '\n');
 		}
 
 
 		}
 
 		cout << "\nManipulate another string? [Y/N]";
+		cin.clear();
+		cin.ignore(10000, '\n');
 		cin >> again;
 		cin.clear();
 
 	} while (again == 'y' || again == 'Y');
 
-	//  clifford - having trouble trying to delete dynamically created memory that is NOT in an array
-
-	//delete[]charPointer;  // free up the memory again
-	//for (count = 0; count < (stringLengthReturnValue + 1); count++)
-	//{
-	//	delete (charPointer + count);
-	//}
-	//charPointer = nullptr;
-
-	//cin.get();
 	return 0;
 }
 
@@ -158,10 +156,10 @@ Accepts two input strings from user and size limit for that string, including th
 cin appends a maximum of size-1 characters to each string variable + automatic null terminator. */
 void inputDoubleString(char *string1, char *string2, const int size)
 {
-	cout << "Enter a first word with 20 or less characters: " << endl;
+	cout << "Enter the first word using 20 or less characters: " << endl;
 	cin.getline(string1, size);
 	cin.clear();
-	cout << "Enter a second word with 20 or less characters: " << endl;
+	cout << "Enter the second word using 20 or less characters: " << endl;
 	cin.getline(string2, size);
 	cin.clear();
 }
@@ -179,62 +177,21 @@ int stringLength(char *charArrayFromMain)
 	return count;
 }
 
-char *stringNCopy(char *charArrayFromMain)
+char *stringNCopy(char *destinationCharArray, char *sourceCharArray, int stringNCopyNumber)
 {
-	// I wrote this function with out using arrays as per instructed.
-	// uses a loop to count how many characters are in the array and creates a new char each time the loop runs
-	// another loops copies the char array sent from main into the new chars made in this function
-	// returns the memory location
+	//  I will add in the pyseudo code later - clifford
+	//  but this function now does what it is supposed to do
 
-	int count = 0;  // loop counter
-	char *returnPointer = nullptr;
+	int count = 0;  //  counter
+	const int SIZE = stringNCopyNumber;
 
-	while (*(charArrayFromMain + count) != '\0')  // this is the same as tempPointer = new char[count], only with out an array
+	for (count = 0; count < stringNCopyNumber && (*(sourceCharArray + count) != '\0'); count++)
 	{
-		returnPointer = new char;
-		count++;
+		*(destinationCharArray + count) = *(sourceCharArray + count);
 	}
-	returnPointer = new char;  // +1 new char for the \0
-	count++;  // increment the counter
+	*(destinationCharArray + count) = '\0';  //  Place a null character in 
 
-	//cout << *(returnPointer) << endl;
-	//returnPointer -= count;
-
-	for (count = 0; *(charArrayFromMain + count) != '\0'; count++)
-	{
-		*(returnPointer + count) = *(charArrayFromMain + count);
-	}
-	*(returnPointer + count) = '\0'; // Place a null character in 
-
-	return returnPointer;
-}
-
-
-char *stringNCopyWithArray(char *charArrayFromMain)  // I wll ask which one we should use
-{
-	// get the array from main, then call stringLength function to the get size.
-	// create a pointer, then make it point to a char array the size of stringLength + 1
-	// run a loop to fill the new chars with the chars sent from the main function
-	// return the pointer's memory location
-
-	int count = 0;  // loop counter
-
-	while (*(charArrayFromMain + count) != '\0')  //  get the number of chars before the \0
-	{
-		count++;
-	}
-
-	const int ARRAYSIZE = count + 1;  // the plus one is for the \0 to be added
-	char *arrayPointer = nullptr;  // create memory pointer for the start of the array
-	arrayPointer = new char[ARRAYSIZE];  // create a character array to copy the characters into
-
-	for (count = 0; *(charArrayFromMain + count) != '\0'; count++)  // run the loop to copy one char array into the other char array
-	{
-		*(arrayPointer + count) = *(charArrayFromMain + count);
-	}
-	*(arrayPointer + count) = '\0'; // Place a null character in 
-
-	return arrayPointer;
+	return destinationCharArray;
 }
 
 /*stringAdd String Concatenation Function:
@@ -256,7 +213,7 @@ char* stringAdd(char *firstWord, const char *secondWord)
 										// a null terminator is found in the source word.
 		count++;
 	}
-	*(firstWord + count) = '\0';
+	*(firstWord + count) = '\0';  //  add a \0 at the end
 	return firstWord;			// returns pointer to destination word
 
 }
