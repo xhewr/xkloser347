@@ -34,9 +34,8 @@ int main()
 	char str1[55] = "";         //  double length, so str1 can hold str1 + str2
 	char str2[LENGTH] = "";     //  initialized  both arrays filled with \0
 
-	char choice = '0';  //  to hold the menu choice from 1-4
-						//  clifford - going to back int works for me, all we need to do is validate the input to ignore letters and other non numbers
-						//  I remember I did that type of validation in 22a.  I just need to find that bit of code
+	int choice = 0;  //  to hold the menu choice from 1-4
+						//  clifford - choice is back to int with some input validation checks
 
 	int count = 0;  //  clifford - I left this here because its used in more than one case
 
@@ -53,12 +52,19 @@ int main()
 	{
 		cout << "Enter your choice and press [ENTER]: " << endl;
 		cin >> choice;
+		while (!cin || choice < 1 || choice > 4)  //  input validation.  To catch letters, negative numbers and other non-number characters
+		{
+			cin.clear();
+			cin.ignore(100, '\n');
+			cout << "Only numbers between 1 through 4 are valid. Enter a new number: ";
+			cin >> choice;
+		}
 		cin.clear();
 		cin.ignore();
 		switch (choice)
 
 		{
-		case '1':  //  stringLength function
+		case 1:  //  stringLength function
 		{
 			inputSingleString(str1, LENGTH);  //  single word input
 			int len = stringLength(str1);  //  return word length to len variable
@@ -66,13 +72,20 @@ int main()
 			break;
 		}
 
-		case '2':  //  stringNCopy function
+		case 2:  //  stringNCopy function
 		{
 			char *stringNCopyPointer = nullptr;
 			int stringNCopyNumber = 0;
 			inputSingleString(str2, LENGTH);
 			cout << "enter the number of characters to copy: ";
-			cin >> stringNCopyNumber;  //  clifford - I need to add in input validation.  To catch letters, negative numbers and other non-number characters
+			cin >> stringNCopyNumber;  
+			while (!cin || stringNCopyNumber < 1 || stringNCopyNumber > 20)  //  input validation
+			{
+				cin.clear();
+				cin.ignore();
+				cout << "Only positive numbers between 1 through 20 are valid. Enter a new number: ";
+				cin >> stringNCopyNumber;
+			}
 			stringNCopyPointer = stringNCopy(str1, str2, stringNCopyNumber);
 			cout << "stringNCopy returns: ";
 			count = 0;
@@ -85,7 +98,7 @@ int main()
 			break;
 		}
 
-		case '3':  //  stringAdd function
+		case 3:  //  stringAdd function
 		{
 			inputDoubleString(str1, str2, LENGTH);  //  double word input
 			char *concatenatedWords = nullptr;
@@ -101,7 +114,7 @@ int main()
 			break;
 		}
 
-		case '4':  //  stringCompare function
+		case 4:  //  stringCompare function
 		{
 			inputDoubleString(str1, str2, LENGTH);  //  double word input
 			int comp = stringCompare(str1, str2);  //  returns value of compared words
@@ -121,15 +134,12 @@ int main()
 		{
 			cout << choice << " is not a choice in this menu.\n" << "You must enter 1, 2, 3 or 4! \n";
 			cin.clear();
-			//cin.ignore(10000, '\n');  //Fabiane: had to remove this line completely for keyboard input to work correctly
 		}
 
 
 		}
 
 		cout << "\nManipulate another string? [Y/N]";
-		//cin.clear();
-		//cin.ignore(10000, '\n'); //Fabiane: had to remove this line same as above
 		cin >> again;
 		cin.clear();
 
@@ -159,6 +169,7 @@ void inputDoubleString(char *string1, char *string2, const int size)
 	cout << "Enter the second word using 20 or less characters: " << endl;
 	cin.getline(string2, size);
 	cin.clear();
+
 }
 
 int stringLength(char *charArrayFromMain)
